@@ -192,9 +192,29 @@
     margin:18px 0 22px;
     color:var(--paper);
   }
-  .hero h1 em{
-    font-style:italic;
+  .hero h1 .hl-analog{
+    text-decoration:underline;
+    text-decoration-style:wavy;
+    text-decoration-color:var(--paper-dim);
+    text-decoration-thickness:2px;
+    text-underline-offset:9px;
+  }
+  .hero h1 .hl-system{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.56em;
+    font-weight:500;
+    letter-spacing:0.02em;
     color:var(--brass-bright);
+    background:rgba(224,168,63,0.1);
+    border:1px solid var(--brass);
+    border-radius:3px;
+    padding:0.2em 0.5em;
+    vertical-align:0.16em;
+    white-space:nowrap;
+  }
+  @media (max-width:480px){
+    .hero h1 .hl-system{white-space:normal;}
   }
   .hero p{
     font-size:1.13rem;
@@ -538,7 +558,7 @@
     <div class="brand">Umbral<span>.</span></div>
     <div class="nav-right">
       <a href="#proyectos" class="nav-link">Ejemplos</a>
-      <a class="cta-nav" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+      <a class="cta-nav" href="https://wa.me/5493548545450?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
         <span class="long">Hablemos por</span> WhatsApp
       </a>
     </div>
@@ -550,10 +570,10 @@
   <div class="wrap">
     <div class="hero-content">
       <span class="mono">Software a medida</span>
-      <h1>El umbral entre <em>el cuaderno</em> y el sistema.</h1>
+      <h1>El umbral entre <span class="hl-analog">el cuaderno</span> y <span class="hl-system">el sistema</span>.</h1>
       <p>Diseñamos y desarrollamos software para negocios que hoy resuelven todo a mano — planillas, cuadernos, memoria. Sin funciones que no vas a usar, sin curvas de aprendizaje raras.</p>
       <div class="hero-ctas">
-        <a class="btn-primary" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+        <a class="btn-primary" href="https://wa.me/5493548545450?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
           Contame tu problema <span class="arrow">→</span>
         </a>
         <a class="btn-secondary" href="#proyectos">Ver ejemplos</a>
@@ -747,7 +767,7 @@
   <div class="wrap reveal">
     <h2>¿Tenés algo en tu negocio que hoy hacés a mano?</h2>
     <p>Contámelo por WhatsApp y vemos si tiene sentido armar algo.</p>
-    <a class="btn-primary" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+    <a class="btn-primary" href="https://wa.me/5493548545450?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
       Escribime ahora <span class="arrow">→</span>
     </a>
   </div>

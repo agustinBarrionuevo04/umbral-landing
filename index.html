@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umbral — Software a medida para tu negocio</title>
+<meta name="description" content="Diseñamos y desarrollamos sistemas a medida para negocios que hoy resuelven todo a mano. Diagnóstico, propuesta y desarrollo claros, sin tecnicismos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f;
+    --charcoal:#1c1a16;
+    --charcoal-2:#242018;
+    --paper:#eee9de;
+    --paper-dim:#c9c2b2;
+    --brass:#c08b2e;
+    --brass-bright:#e0a83f;
+    --line:#3a352b;
+    --radius:2px;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--charcoal);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  .mono{
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--brass-bright);
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--brass-bright);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* NAV */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(28,26,22,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
+  }
+  header.scrolled{
+    border-bottom:1px solid var(--line);
+    box-shadow:0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 28px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .brand{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.25rem;
+    letter-spacing:-0.01em;
+  }
+  .brand span{color:var(--brass-bright);}
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:26px;
+  }
+  .nav-link{
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-size:0.78rem;
+    color:var(--paper-dim);
+    transition:color 180ms var(--ease-out);
+  }
+  @media (hover:hover) and (pointer:fine){
+    .nav-link:hover{color:var(--brass-bright);}
+  }
+  @media (max-width:760px){
+    .nav-link{display:none;}
+  }
+  .cta-nav{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--brass);
+    color:var(--ink);
+    font-weight:600;
+    font-size:0.9rem;
+    padding:10px 18px;
+    border-radius:var(--radius);
+    transition:background 180ms var(--ease-out), transform 180ms var(--ease-out);
+  }
+  .cta-nav:active{transform:scale(0.97);}
+  @media (hover:hover) and (pointer:fine){
+    .cta-nav:hover{background:var(--brass-bright); transform:translateY(-1px);}
+  }
+
+  /* HERO / THRESHOLD SIGNATURE */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:90px;
+    overflow:hidden;
+  }
+  .hero::before{
+    /* left half: analog grain */
+    content:"";
+    position:absolute;
+    inset:0;
+    width:52%;
+    background:
+      repeating-linear-gradient(180deg, rgba(238,233,222,0.035) 0px, rgba(238,233,222,0.035) 1px, transparent 1px, transparent 26px),
+      radial-gradient(ellipse at 20% 30%, rgba(238,233,222,0.05), transparent 60%);
+  }
+  .hero::after{
+    /* right half: system grid */
+    content:"";
+    position:absolute;
+    inset:0;
+    left:52%;
+    background:
+      linear-gradient(rgba(192,139,46,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(192,139,46,0.08) 1px, transparent 1px);
+    background-size:38px 38px;
+    mask-image:linear-gradient(90deg, transparent, black 12%);
+  }
+  .threshold-line{
+    position:absolute;
+    top:0; bottom:0;
+    left:52%;
+    width:1px;
+    background:linear-gradient(180deg, transparent, var(--brass-bright) 20%, var(--brass-bright) 80%, transparent);
+    box-shadow:0 0 24px 1px rgba(224,168,63,0.35);
+    z-index:1;
+  }
+  .threshold-line::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:38%;
+    width:9px; height:9px;
+    background:var(--brass-bright);
+    border-radius:50%;
+    transform:translate(-50%,-50%) translateY(var(--dot-y, 0px));
+    box-shadow:0 0 18px 4px rgba(224,168,63,0.55);
+    animation:pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.7; transform:translate(-50%,-50%) translateY(var(--dot-y, 0px)) scale(1);}
+    50%{opacity:1; transform:translate(-50%,-50%) translateY(var(--dot-y, 0px)) scale(1.35);}
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    max-width:660px;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 5.2vw, 4.1rem);
+    margin:18px 0 22px;
+    color:var(--paper);
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--brass-bright);
+  }
+  .hero p{
+    font-size:1.13rem;
+    color:var(--paper-dim);
+    max-width:520px;
+    margin-bottom:34px;
+  }
+  .hero-ctas{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--brass);
+    color:var(--ink);
+    font-weight:700;
+    padding:15px 26px;
+    border-radius:var(--radius);
+    font-size:1rem;
+    transition:background 180ms var(--ease-out), transform 180ms var(--ease-out);
+  }
+  .btn-primary:active{transform:scale(0.97);}
+  .btn-primary .arrow{display:inline-block; transition:transform 180ms var(--ease-out);}
+  @media (hover:hover) and (pointer:fine){
+    .btn-primary:hover{background:var(--brass-bright); transform:translateY(-2px);}
+    .btn-primary:hover .arrow{transform:translateX(3px);}
+  }
+  .btn-secondary{
+    display:inline-flex;
+    align-items:center;
+    color:var(--paper-dim);
+    border-bottom:1px solid var(--line);
+    padding-bottom:2px;
+    font-size:0.95rem;
+    transition:color 180ms var(--ease-out), border-color 180ms var(--ease-out);
+  }
+  @media (hover:hover) and (pointer:fine){
+    .btn-secondary:hover{color:var(--paper); border-color:var(--paper-dim);}
+  }
+
+  /* SECTIONS */
+  section{
+    padding:110px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    max-width:600px;
+    margin-bottom:56px;
+  }
+  .section-head .mono{display:block; margin-bottom:14px;}
+  .section-head h2{
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+    color:var(--paper);
+  }
+  .section-head p{
+    margin-top:16px;
+    color:var(--paper-dim);
+    font-size:1.05rem;
+    max-width:520px;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(16px) scale(0.98);
+    transition:opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+  }
+  .reveal.in{opacity:1; transform:translateY(0) scale(1);}
+
+  /* stagger: children of .stagger get an incremental delay when parent gets .in */
+  .stagger > *{
+    opacity:0;
+    transform:translateY(14px) scale(0.97);
+    transition:opacity 550ms var(--ease-out), transform 550ms var(--ease-out);
+  }
+  .stagger.in > *{opacity:1; transform:translateY(0) scale(1);}
+  .stagger.in > *:nth-child(1){transition-delay:0ms;}
+  .stagger.in > *:nth-child(2){transition-delay:70ms;}
+  .stagger.in > *:nth-child(3){transition-delay:140ms;}
+  .stagger.in > *:nth-child(4){transition-delay:210ms;}
+
+  /* QUE HACEMOS - grid */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .service{
+    background:var(--charcoal);
+    padding:34px 32px;
+    position:relative;
+    transition:background 200ms var(--ease-out);
+  }
+  @media (hover:hover) and (pointer:fine){
+    .service:hover{background:var(--charcoal-2);}
+    .service:hover h3{color:var(--brass-bright);}
+  }
+  .service h3{transition:color 200ms var(--ease-out);}
+  .service h3{
+    font-size:1.15rem;
+    font-weight:500;
+    color:var(--paper);
+    margin-bottom:10px;
+  }
+  .service p{
+    color:var(--paper-dim);
+    font-size:0.96rem;
+  }
+
+  /* PROCESO - numbered, real sequence */
+  .process{
+    display:flex;
+    flex-direction:column;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    gap:28px;
+    padding:30px 0;
+    border-top:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step-num{
+    font-family:'Fraunces',serif;
+    font-size:2.2rem;
+    color:var(--brass);
+    font-weight:400;
+    opacity:0.85;
+    transition:color 200ms var(--ease-out), opacity 200ms var(--ease-out);
+  }
+  @media (hover:hover) and (pointer:fine){
+    .step:hover .step-num{color:var(--brass-bright); opacity:1;}
+  }
+  .step h3{
+    font-size:1.2rem;
+    font-weight:500;
+    color:var(--paper);
+    margin-bottom:8px;
+  }
+  .step p{color:var(--paper-dim); font-size:0.98rem; max-width:520px;}
+
+  /* PORTFOLIO */
+  .portfolio-note{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--charcoal-2);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:var(--radius);
+    font-size:0.86rem;
+    color:var(--paper-dim);
+    margin-bottom:44px;
+  }
+  .portfolio-note .dot{
+    width:6px; height:6px;
+    background:var(--brass-bright);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .projects{
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .project{
+    background:var(--charcoal);
+    padding:40px;
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:40px;
+    align-items:start;
+  }
+  .project-info .mono{display:block; margin-bottom:12px;}
+  .project-info h3{
+    font-size:1.5rem;
+    font-weight:500;
+    color:var(--paper);
+    margin-bottom:12px;
+  }
+  .project-info p{
+    color:var(--paper-dim);
+    font-size:0.98rem;
+    margin-bottom:18px;
+  }
+  .project-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .project-tags span{
+    font-size:0.78rem;
+    color:var(--paper-dim);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:var(--radius);
+  }
+  .project-shots{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+  .project-shots.two{grid-template-columns:repeat(2, 1fr);}
+  .browser-frame{
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--charcoal-2);
+    cursor:zoom-in;
+    transition:transform 200ms var(--ease-out), border-color 200ms var(--ease-out);
+  }
+  .browser-frame .chrome{
+    display:flex;
+    gap:5px;
+    padding:8px 10px;
+    background:#100e0b;
+    border-bottom:1px solid var(--line);
+  }
+  .browser-frame .chrome span{
+    width:7px; height:7px;
+    border-radius:50%;
+    background:#4a4638;
+  }
+  .browser-frame img{
+    display:block;
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    object-position:top;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .browser-frame:hover{transform:translateY(-3px); border-color:var(--brass);}
+  }
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(10,9,7,0.9);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 220ms var(--ease-out);
+  }
+  .lightbox.open{opacity:1; pointer-events:auto;}
+  .lightbox img{
+    max-width:min(1100px, 100%);
+    max-height:100%;
+    border-radius:6px;
+    border:1px solid var(--line);
+    transform:scale(0.96);
+    opacity:0;
+    transition:transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
+  }
+  .lightbox.open img{transform:scale(1); opacity:1;}
+  .lightbox-close{
+    position:absolute;
+    top:24px; right:28px;
+    color:var(--paper-dim);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.85rem;
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:var(--radius);
+    transition:color 180ms var(--ease-out), border-color 180ms var(--ease-out);
+  }
+  @media (hover:hover) and (pointer:fine){
+    .lightbox-close:hover{color:var(--paper); border-color:var(--paper-dim);}
+  }
+
+  @media (max-width:760px){
+    .project{grid-template-columns:1fr; padding:28px 24px;}
+    .project-shots, .project-shots.two{grid-template-columns:repeat(3, 1fr);}
+    .browser-frame img{height:90px;}
+  }
+
+  /* MODELO */
+  .model-box{
+    background:var(--charcoal-2);
+    border:1px solid var(--line);
+    padding:44px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+  }
+  .model-item .mono{display:block; margin-bottom:10px;}
+  .model-item h3{
+    font-size:1.4rem;
+    font-weight:500;
+    color:var(--paper);
+    margin-bottom:10px;
+  }
+  .model-item p{color:var(--paper-dim); font-size:0.96rem;}
+
+  /* CTA FINAL */
+  .final{
+    text-align:center;
+    padding:130px 0;
+    border-bottom:none;
+  }
+  .final h2{
+    font-size:clamp(2rem, 4.5vw, 3.2rem);
+    max-width:640px;
+    margin:0 auto 26px;
+  }
+  .final p{
+    color:var(--paper-dim);
+    margin-bottom:38px;
+  }
+
+  footer{
+    padding:34px 0 44px;
+    text-align:center;
+  }
+  footer .mono{color:var(--line-2, #6b6354);}
+
+  @media (max-width:760px){
+    .hero::before, .hero::after, .threshold-line{display:none;}
+    .services{grid-template-columns:1fr;}
+    .model-box{grid-template-columns:1fr;}
+    .step{grid-template-columns:52px 1fr; gap:18px;}
+    .step-num{font-size:1.6rem;}
+    nav .cta-nav span.long{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brand">Umbral<span>.</span></div>
+    <div class="nav-right">
+      <a href="#proyectos" class="nav-link">Ejemplos</a>
+      <a class="cta-nav" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+        <span class="long">Hablemos por</span> WhatsApp
+      </a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="threshold-line" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-content">
+      <span class="mono">Software a medida</span>
+      <h1>El umbral entre <em>el cuaderno</em> y el sistema.</h1>
+      <p>Diseñamos y desarrollamos software para negocios que hoy resuelven todo a mano — planillas, cuadernos, memoria. Sin funciones que no vas a usar, sin curvas de aprendizaje raras.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+          Contame tu problema <span class="arrow">→</span>
+        </a>
+        <a class="btn-secondary" href="#proyectos">Ver ejemplos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hacemos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Qué hacemos</span>
+      <h2>Sistemas hechos para tu negocio puntual, no plantillas genéricas.</h2>
+      <p>Cada sistema se arma según cómo trabajás vos, no al revés.</p>
+    </div>
+    <div class="services stagger">
+      <div class="service">
+        <h3>Control de stock e inventario</h3>
+        <p>Saber cuánto tenés de cada cosa, en tiempo real, sin abrir una planilla.</p>
+      </div>
+      <div class="service">
+        <h3>Gestión de pedidos y ventas</h3>
+        <p>Un lugar único donde queda registrado qué entró, qué salió y qué falta.</p>
+      </div>
+      <div class="service">
+        <h3>Paneles simples de estado</h3>
+        <p>Una pantalla clara para ver cómo está el negocio hoy, sin gráficos que nadie lee.</p>
+      </div>
+      <div class="service">
+        <h3>Integraciones con lo que ya usás</h3>
+        <p>Conectamos el sistema nuevo con las herramientas que ya tenés instaladas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Cómo trabajamos</span>
+      <h2>Cuatro pasos. Sabés en qué etapa estás en todo momento.</h2>
+    </div>
+    <div class="process stagger">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Diagnóstico</h3>
+          <p>Charlamos sobre cómo funciona tu negocio hoy. Sin tecnicismos, sin compromiso.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Propuesta</h3>
+          <p>Alcance y precio definidos antes de empezar. Sin sorpresas en el camino.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Desarrollo</h3>
+          <p>Vas viendo avances reales durante el proceso, no un sistema cerrado que aparece al final.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <h3>Acompañamiento</h3>
+          <p>Capacitación al entregarlo y soporte después. No te dejamos solo con algo nuevo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Lo que construimos</span>
+      <h2>Ejemplos reales de sistemas, no maquetas vacías.</h2>
+      <p>Todavía no son casos de clientes cerrados — son demos funcionales que armamos para mostrar exactamente qué tipo de sistema recibís.</p>
+    </div>
+    <div class="portfolio-note reveal">
+      <span class="dot" aria-hidden="true"></span>
+      Demos propias, no clientes actuales todavía.
+    </div>
+
+    <div class="projects stagger">
+      <div class="project">
+        <div class="project-info">
+          <span class="mono">Landing institucional</span>
+          <h3>Presencia web para un negocio agroindustrial</h3>
+          <p>Sitio de una página con catálogo de productos, botón de consulta por WhatsApp en cada ítem y sección institucional — pensado para un negocio que hoy no tiene ninguna presencia online.</p>
+          <div class="project-tags">
+            <span>Catálogo de productos</span>
+            <span>Consulta por WhatsApp</span>
+            <span>Responsive</span>
+          </div>
+        </div>
+        <div class="project-shots two">
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: inicio">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/inicio_el_rustico.png" alt="Inicio de una landing institucional para un negocio agroindustrial, con catálogo y botón de WhatsApp" loading="lazy">
+          </div>
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: catálogo">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/menu_el_rustico.png" alt="Catálogo de productos organizado por categoría, con botón de consulta por WhatsApp en cada producto" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-info">
+          <span class="mono">Carta digital</span>
+          <h3>Panel de gestión + vista pública para gastronomía</h3>
+          <p>Dos sistemas conectados: un panel donde el dueño carga productos, categorías y adicionales, y una vista pública para que el cliente final navegue la carta desde el celular.</p>
+          <div class="project-tags">
+            <span>Panel de administración</span>
+            <span>Vista para el cliente</span>
+            <span>Adicionales por producto</span>
+          </div>
+        </div>
+        <div class="project-shots">
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: vista del cliente">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/menu_cliente.png" alt="Vista pública de la carta digital, organizada por categorías como parrilla y guarniciones" loading="lazy">
+          </div>
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: panel de productos">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/menu_productos.png" alt="Panel de administración con la lista de productos del menú y su estado" loading="lazy">
+          </div>
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: adicionales">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/menu_adicionales.png" alt="Panel de adicionales configurables por producto, con precio de cada uno" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-info">
+          <span class="mono">Control de stock</span>
+          <h3>Dashboard de inventario con alertas</h3>
+          <p>Vista general del estado del stock, alertas automáticas de productos bajos o en exceso, e historial de movimientos con motivo — para saber qué entró, qué salió y por qué.</p>
+          <div class="project-tags">
+            <span>Alertas de stock bajo</span>
+            <span>Historial de movimientos</span>
+            <span>Valorización de inventario</span>
+          </div>
+        </div>
+        <div class="project-shots">
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: dashboard">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/panel_dashboard.png" alt="Dashboard de control de stock con indicadores de stock bajo, agotados y exceso" loading="lazy">
+          </div>
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: productos">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/panel_productos.png" alt="Listado de productos en stock con ubicación, cantidad y precio" loading="lazy">
+          </div>
+          <div class="browser-frame" tabindex="0" role="button" aria-label="Ampliar captura: movimientos">
+            <div class="chrome"><span></span><span></span><span></span></div>
+            <img src="img/panel_movimiento.png" alt="Historial de movimientos de stock, con entradas y salidas registradas" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modelo">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">Cómo se cobra</span>
+      <h2>Simple y por escrito, desde el principio.</h2>
+    </div>
+    <div class="model-box reveal">
+      <div class="model-item">
+        <span class="mono">Pago inicial</span>
+        <h3>Desarrollo e implementación</h3>
+        <p>Cubre el diseño, la construcción y la puesta en marcha del sistema completo.</p>
+      </div>
+      <div class="model-item">
+        <span class="mono">Cuota mensual</span>
+        <h3>Hosting, soporte y mantenimiento</h3>
+        <p>El sistema sigue funcionando y actualizado sin que vos tengas que ocuparte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final" style="border-bottom:1px solid var(--line);">
+  <div class="wrap reveal">
+    <h2>¿Tenés algo en tu negocio que hoy hacés a mano?</h2>
+    <p>Contámelo por WhatsApp y vemos si tiene sentido armar algo.</p>
+    <a class="btn-primary" href="https://wa.me/5490000000000?text=Hola%2C%20quiero%20contarte%20sobre%20mi%20negocio" target="_blank" rel="noopener">
+      Escribime ahora <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="mono">Umbral — Software a medida</span>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">Cerrar ✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  // Scroll reveals (fires once per element)
+  const els = document.querySelectorAll('.reveal, .stagger');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+
+  // Header: only show the boundary once the page has actually scrolled
+  const header = document.querySelector('header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  // Threshold dot: decorative spring-follow of the cursor (Y axis only, clamped).
+  // Disabled on touch devices and when the user prefers reduced motion —
+  // this is pure decoration, never information the user needs to read.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!prefersReducedMotion && hasFinePointer) {
+    const hero = document.querySelector('.hero');
+    const thresholdLine = document.querySelector('.threshold-line');
+    let targetY = 0, currentY = 0;
+    const MAX_OFFSET = 90; // px the dot may drift from its resting point
+    const STIFFNESS = 0.08; // lower = softer spring
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const relativeY = e.clientY - rect.top; // px from top of hero
+      const heroMid = rect.height * 0.38; // matches CSS `top: 38%` resting point
+      targetY = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, (relativeY - heroMid) * 0.25));
+    });
+    hero.addEventListener('mouseleave', () => { targetY = 0; });
+
+    function tick(){
+      currentY += (targetY - currentY) * STIFFNESS;
+      thresholdLine.style.setProperty('--dot-y', `${currentY.toFixed(2)}px`);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Lightbox for portfolio screenshots
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function openLightbox(src, alt){
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add('open');
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+  }
+
+  document.querySelectorAll('.browser-frame').forEach(frame => {
+    const img = frame.querySelector('img');
+    const trigger = () => openLightbox(img.src, img.alt);
+    frame.addEventListener('click', trigger);
+    frame.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); trigger(); }
+    });
+  });
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>

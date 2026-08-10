@@ -79,6 +79,11 @@ nav{
   letter-spacing:-0.01em;
 }
 .brand span{color:var(--brass-bright);}
+.brand-logo{
+  display:block;
+  height:32px;
+  width:auto;
+}
 .nav-right{
   display:flex;
   align-items:center;

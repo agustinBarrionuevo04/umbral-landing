@@ -8,7 +8,7 @@ export default function Header() {
     <header className={scrolled ? 'scrolled' : ''}>
       <nav>
         <div className="brand">
-          Umbral<span>.</span>
+          <img className="brand-logo" src="/logos/umbral-logo-full.svg" alt="Umbral" />
         </div>
         <div className="nav-right">
           <a href="#proyectos" className="nav-link">

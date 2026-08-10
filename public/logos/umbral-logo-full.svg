@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120">
+  <line x1="65" y1="25" x2="65" y2="95" stroke="#c08b2e" stroke-width="3"/>
+  <circle cx="65" cy="55" r="6" fill="#e0a83f"/>
+  <text x="95" y="72" font-family="Fraunces, Georgia, 'Times New Roman', serif" font-size="46" fill="#eee9de">Umbral</text>
+</svg>
